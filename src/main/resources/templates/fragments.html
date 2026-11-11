@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- ===== HEAD ===== -->
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <title th:text="${title} + ' – Cukrászda'">Cukrászda</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link th:href="@{/img/favicon.ico}" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link th:href="@{/lib/animate/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ===== MENÜ (szerepkör szerint változik) ===== -->
+<nav th:fragment="nav(active)" class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+    <a th:href="@{/}" class="navbar-brand p-0">
+        <h1 class="text-primary m-0"><i class="fa fa-birthday-cake me-3"></i>Cukrászda</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-0 pe-4">
+            <a th:href="@{/}" class="nav-item nav-link" th:classappend="${active == 'fooldal'} ? 'active'">Főoldal</a>
+            <a th:href="@{/adatbazis}" class="nav-item nav-link" th:classappend="${active == 'adatbazis'} ? 'active'">Adatbázis</a>
+            <a th:href="@{/kapcsolat}" class="nav-item nav-link" th:classappend="${active == 'kapcsolat'} ? 'active'">Kapcsolat</a>
+            <a th:href="@{/diagram}" class="nav-item nav-link" th:classappend="${active == 'diagram'} ? 'active'">Diagram</a>
+            <a th:href="@{/rest}" class="nav-item nav-link" th:classappend="${active == 'rest'} ? 'active'">REST</a>
+
+            <!-- regisztrált látogató és admin -->
+            <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/uzenetek}" class="nav-item nav-link"
+               th:classappend="${active == 'uzenetek'} ? 'active'">Üzenetek</a>
+
+            <!-- csak admin -->
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/crud}" class="nav-item nav-link"
+               th:classappend="${active == 'crud'} ? 'active'">CRUD</a>
+
+            <!-- nem bejelentkezett -->
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-item nav-link"
+               th:classappend="${active == 'login'} ? 'active'">Login</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/register}" class="nav-item nav-link"
+               th:classappend="${active == 'register'} ? 'active'">Regisztráció</a>
+        </div>
+        <!-- bejelentkezett: név + kijelentkezés -->
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-flex align-items-center">
+            <span class="text-white me-3"><i class="fa fa-user me-1"></i><span sec:authentication="name"></span></span>
+            <button type="submit" class="btn btn-primary py-2 px-4">Kijelentkezés</button>
+        </form>
+    </div>
+</nav>
+
+<!-- ===== KISEBB OLDALFEJLÉC az aloldalakhoz ===== -->
+<div th:fragment="pageheader(title)" class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown" th:text="${title}">Cím</h1>
+    </div>
+</div>
+
+<!-- ===== LÁBLÉC: készítők neve és Neptun-kódja MINDEN oldalon ===== -->
+<div th:fragment="footer" class="container-fluid bg-dark text-light footer pt-5 mt-5">
+    <div class="container py-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-3">Cukrászda</h4>
+                <p class="mb-0">Beadandó feladat – Java alkalmazások, Java Spring Boot</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-1">Készítették:</p>
+                <p class="mb-0 fw-bold">Kovács Szabolcs (NEPTUN),Bódi Bálint Dávid (KLNK5L)</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-12 text-center mb-3 mb-md-0">
+                    Sablon: Restoran – HTML Codex (ingyenes, reszponzív Bootstrap 5 téma)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SCRIPTEK ===== -->
+<th:block th:fragment="scripts">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Regisztráció')}"></head>
+<body>
+<div class="container-xxl bg-white p-0">
+    <div class="container-xxl position-relative p-0">
+        <nav th:replace="~{fragments :: nav('register')}"></nav>
+        <div th:replace="~{fragments :: pageheader('Regisztráció')}"></div>
+    </div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                <form th:action="@{/register}" method="post">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Felhasználónév" required>
+                        <label for="username">Felhasználónév</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Jelszó" required minlength="4">
+                        <label for="password">Jelszó (min. 4 karakter)</label>
+                    </div>
+                    <button class="btn btn-primary w-100 py-3" type="submit">Regisztráció</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{fragments :: footer}"></div>
+</div>
+<th:block th:replace="~{fragments :: scripts}"></th:block>
+</body>
+</html>
