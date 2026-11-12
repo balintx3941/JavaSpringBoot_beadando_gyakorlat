@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${title})}"></head>
+<body>
+<div class="container-xxl bg-white p-0">
+    <div class="container-xxl position-relative p-0">
+        <nav th:replace="~{fragments :: nav(${active})}"></nav>
+        <div th:replace="~{fragments :: pageheader(${title})}"></div>
+    </div>
+    <div class="container py-5 text-center">
+        <p class="lead">Ez az oldal még fejlesztés alatt áll.</p>
+    </div>
+    <div th:replace="~{fragments :: footer}"></div>
+</div>
+<th:block th:replace="~{fragments :: scripts}"></th:block>
+</body>
+</html>
